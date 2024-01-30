@@ -1,0 +1,1 @@
+INFO:root:Namespace(path='Data/', dataset='yelp', verbose=20, batch_size=512, epochs=2000, embed_size=64, dns=1, reg=0, lr=0.05, reg_adv=1.0, restore=None, ckpt=1, task='', adv_epoch=1000, adv='grad', eps=0.5)

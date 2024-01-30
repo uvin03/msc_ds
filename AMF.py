@@ -3,7 +3,8 @@ from __future__ import division
 import os
 import math
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from multiprocessing import Pool
 from multiprocessing import cpu_count
 import argparse
@@ -86,7 +87,7 @@ def shuffle(samples, batch_size, dataset, model):
     global _dataset
     _user_input, _item_input_pos = samples
     _batch_size = batch_size
-    _index = range(len(_user_input))
+    _index = list(range(len(_user_input)))
     _model = model
     _dataset = dataset
     np.random.shuffle(_index)
@@ -189,8 +190,7 @@ class MF:
             self.loss = tf.reduce_sum(tf.nn.softplus(-self.result))
 
             # loss to be omptimized
-            self.opt_loss = self.loss + self.reg * 
-                    tf.reduce_mean(tf.square(embed_p_pos) + tf.square(embed_q_pos) + tf.square(embed_q_neg)) # embed_p_pos == embed_q_neg
+            self.opt_loss = self.loss + self.reg * tf.reduce_mean(tf.square(embed_p_pos) + tf.square(embed_q_pos) + tf.square(embed_q_neg)) # embed_p_pos == embed_q_neg
 
             if self.adver:
                 # loss for L(Theta + adv_Delta)
@@ -270,7 +270,7 @@ def training(model, dataset, args, epoch_start, epoch_end, time_stamp):  # saver
         # initialize the weights
         else:
             logging.info("Initialized from scratch")
-            print "Initialized from scratch"
+            print("Initialized from scratch")
 
         # initialize for Evaluate
         eval_feed_dicts = init_eval_model(model, dataset)
@@ -310,10 +310,11 @@ def training(model, dataset, args, epoch_start, epoch_end, time_stamp):  # saver
                 best_res['epoch'] = epoch_count
 
             if model.epochs == epoch_count:
-                print "Epoch %d is the best epoch" % best_res['epoch']
+                best_epoch_ = best_res['epoch']
+                print (f"Epoch {best_epoch_} is the best epoch")
                 for idx, (hr_k, ndcg_k, auc_k) in enumerate(np.swapaxes(best_res['result'], 0, 1)):
-                    res = "K = %d: HR = %.4f, NDCG = %.4f AUC = %.4f" % (idx + 1, hr_k, ndcg_k, auc_k)
-                    print res
+                    res = f"K = {idx + 1}: HR = {hr_k}, NDCG = {ndcg_k} AUC = {auc_k}" 
+                    print (res)
 
             # save the embedding weights
             if args.ckpt > 0 and epoch_count % args.ckpt == 0:
@@ -340,7 +341,7 @@ def output_evaluate(model, sess, dataset, train_batches, eval_feed_dicts, epoch_
           (epoch_count, batch_time, train_time, hr, ndcg, prev_acc,
            post_acc, eval_time, np.linalg.norm(embedding_P), np.linalg.norm(embedding_Q))
 
-    print res
+    print(res)
 
     return post_acc, ndcg, result
 
@@ -499,7 +500,7 @@ def init_logging(args, time_stamp):
     logging.basicConfig(filename=path + "%s_log_embed_size%d_%s" % (args.dataset, args.embed_size, time_stamp),
                         level=logging.INFO)
     logging.info(args)
-    print args
+    print(args)
 
 
 if __name__ == '__main__':
@@ -518,7 +519,7 @@ if __name__ == '__main__':
     MF_BPR = MF(dataset.num_users, dataset.num_items, args)
     MF_BPR.build_graph()
 
-    print "Initialize MF_BPR"
+    print("Initialize MF_BPR")
 
     # start training
     training(MF_BPR, dataset, args, epoch_start=0, epoch_end=args.adv_epoch-1, time_stamp=time_stamp)
@@ -528,7 +529,7 @@ if __name__ == '__main__':
     AMF = MF(dataset.num_users, dataset.num_items, args)
     AMF.build_graph()
 
-    print "Initialize AMF"
+    print("Initialize AMF")
 
     # start training
     training(AMF, dataset, args, epoch_start=args.adv_epoch, epoch_end=args.epochs, time_stamp=time_stamp)

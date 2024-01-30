@@ -1,0 +1,6 @@
+model_checkpoint_path: "weights-2000"
+all_model_checkpoint_paths: "weights-1996"
+all_model_checkpoint_paths: "weights-1997"
+all_model_checkpoint_paths: "weights-1998"
+all_model_checkpoint_paths: "weights-1999"
+all_model_checkpoint_paths: "weights-2000"

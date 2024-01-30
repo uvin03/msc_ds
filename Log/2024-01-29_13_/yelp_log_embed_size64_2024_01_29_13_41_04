@@ -1,0 +1,5 @@
+INFO:root:Namespace(path='Data/', dataset='yelp', verbose=20, batch_size=512, epochs=2000, embed_size=64, dns=1, reg=0, lr=0.05, reg_adv=1.0, restore=None, ckpt=1, task='', adv_epoch=1000, adv='grad', eps=0.5)
+WARNING:tensorflow:From /home/asilla/anaconda3/envs/apr/lib/python3.10/site-packages/tensorflow/python/training/adagrad.py:138: calling Constant.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+INFO:root:Initialized from scratch
