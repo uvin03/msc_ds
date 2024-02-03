@@ -1,0 +1,3 @@
+total epochs 			= 2000
+adversarial train (amf) from 	= 1000
+adv weight gen method 		= random 
