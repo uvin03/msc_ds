@@ -297,11 +297,15 @@ def training(model, dataset, args, epoch_start, epoch_end, time_stamp):  # saver
             # training the model
             train_begin = time()
             train_batches = training_batch(model, sess, batches, args.adver)
+            
             train_time = time() - train_begin
 
+            log_file = open('w_adv_grad _training_2000_epochs.txt', 'a')
             if epoch_count % args.verbose == 0:
-                _, ndcg, cur_res = output_evaluate(model, sess, dataset, train_batches, eval_feed_dicts,
+                _, ndcg, cur_res, log_line = output_evaluate(model, sess, dataset, train_batches, eval_feed_dicts,
                                                    epoch_count, batch_time, train_time, prev_acc, output_adv=0)
+                print(log_line, file=log_file)
+            log_file.close()
 
             # print and log the best result
             if max_ndcg < ndcg:
@@ -343,7 +347,7 @@ def output_evaluate(model, sess, dataset, train_batches, eval_feed_dicts, epoch_
 
     print(res)
 
-    return post_acc, ndcg, result
+    return post_acc, ndcg, result, res
 
 
 # input: batch_index (shuffled), model, sess, batches

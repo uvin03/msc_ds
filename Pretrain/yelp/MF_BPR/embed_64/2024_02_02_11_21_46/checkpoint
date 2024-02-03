@@ -1,0 +1,6 @@
+model_checkpoint_path: "weights-999"
+all_model_checkpoint_paths: "weights-995"
+all_model_checkpoint_paths: "weights-996"
+all_model_checkpoint_paths: "weights-997"
+all_model_checkpoint_paths: "weights-998"
+all_model_checkpoint_paths: "weights-999"

@@ -1,0 +1,2 @@
+total epochs 			= 2000
+adversarial train (amf) from 	= 2001 (no adv training)
